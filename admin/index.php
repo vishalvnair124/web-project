@@ -1,5 +1,5 @@
 <?php
-include 'session_check.php';
+include '../common/session_check_admin.php';
 ?>
 
 <!DOCTYPE html>
