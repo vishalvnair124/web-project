@@ -1,2 +1,2 @@
 <?php
-include 'session_check.php';
+include '../common/session_check.php';
