@@ -64,3 +64,29 @@ CREATE TABLE messages (
     FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+
+-- Create donor_info Table
+CREATE TABLE donor_info (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    user_gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    weight DECIMAL(5,2) NOT NULL,
+    height DECIMAL(5,2) NOT NULL,
+    blood_pressure VARCHAR(10),
+    pulse_rate INT,
+    body_temperature DECIMAL(4,2),
+    hemoglobin_level DECIMAL(4,2),
+    cholesterol DECIMAL(5,2),
+    last_donation_date DATE,
+    total_donations INT DEFAULT 0,
+    chronic_diseases TEXT,
+    medications TEXT,
+    smoking_status ENUM('Yes', 'No') DEFAULT 'No',
+    alcohol_consumption ENUM('Yes', 'No') DEFAULT 'No',
+    travel_history TEXT,
+    tattoos_piercings ENUM('Yes', 'No') DEFAULT 'No',
+    pregnancy_status ENUM('Yes', 'No', 'N/A') DEFAULT 'N/A',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
