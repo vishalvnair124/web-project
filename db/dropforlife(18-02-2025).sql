@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2025 at 03:35 PM
+-- Generation Time: Feb 18, 2025 at 05:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,10 +50,9 @@ INSERT INTO `admin` (`Admin_id`, `Admin_email`, `Admin_name`, `Admin_password`) 
 CREATE TABLE `blood_requests` (
   `request_id` int(11) NOT NULL,
   `recipient_id` int(11) NOT NULL,
-  `donor_id` int(11) DEFAULT NULL,
   `blood_group` enum('A+','A-','B+','B-','AB+','AB-','O+','O-') NOT NULL,
   `request_units` int(11) NOT NULL DEFAULT 1,
-  `urgency_level` int(11) DEFAULT NULL,
+  `when_need_bllood` timestamp NULL DEFAULT NULL,
   `hospital_name` varchar(255) DEFAULT NULL,
   `doctor_name` varchar(100) DEFAULT NULL,
   `additional_notes` text DEFAULT NULL,
