@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
 
         // Prepare the SQL query to fetch the user record
-        $sql = "SELECT user_password FROM users WHERE user_email = ?";
+        $sql = "SELECT user_id, name, password FROM users WHERE email = ?";
 
         // Prepare the statement
         if ($stmt = $conn->prepare($sql)) {
@@ -31,27 +31,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Check if a user exists with the given email
             if ($stmt->num_rows > 0) {
                 // Bind result variables
-                $stmt->bind_result($hashed_password);
+                $stmt->bind_result($user_id, $name, $hashed_password);
 
                 // Fetch the result
                 $stmt->fetch();
 
                 // Verify the password
                 if (password_verify($password, $hashed_password)) {
-                    // Set session variables
+                    // Start session and set session variables
                     session_start();
+                    $_SESSION["user_id"] = $user_id;
+                    $_SESSION["user"] = $name;
                     $_SESSION["isLogined"] = true;
                     $_SESSION["user_email"] = $email;
 
                     // Redirect with success message
                     header("Location: ../user/");
+                    exit;
                 } else {
                     // Redirect with invalid password message
                     header("Location: index.php?login=invalid_password");
+                    exit;
                 }
             } else {
                 // Redirect with no user found message
                 header("Location: index.php?login=no_user");
+                exit;
             }
 
             // Close the statement
