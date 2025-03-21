@@ -1,0 +1,38 @@
+Status Columns in Your Database
+
+request_status (in blood_requests)
+0 - created
+1 - request created
+2 - email sended
+3 - request pending
+4 - request successfully closed
+5 - request blocked by admin
+
+request_level (in blood_requests)
+1 
+2
+3
+
+donor_notifications_status (in donor_notifications)
+
+
+enquiry_status (in enquiry)
+0 - created 
+1 - opened
+2 - replayed
+
+status (in reports)
+0 - created 
+1 - checked
+
+
+testimonials_status (in testimonials)
+0 - created 
+1 - activevated
+2 - deactivated 
+
+user_status (in users)
+0 - account deleted
+1 - active user
+2 - deactivated account
+3 - temporary blocked user
