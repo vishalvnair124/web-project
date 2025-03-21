@@ -14,7 +14,11 @@ request_level (in blood_requests)
 3
 
 donor_notifications_status (in donor_notifications)
-
+0 - created
+1 - accepted
+2 - rejected
+3 - opened
+4 - deleted
 
 enquiry_status (in enquiry)
 0 - created 
