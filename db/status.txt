@@ -1,12 +1,13 @@
 Status Columns in Your Database
 
 request_status (in blood_requests)
-0 - created
+
 1 - request created
 2 - email sended
 3 - request pending
 4 - request successfully closed
 5 - request blocked by admin
+6 - colsed request
 
 request_level (in blood_requests)
 1 
@@ -14,7 +15,12 @@ request_level (in blood_requests)
 3
 
 donor_notifications_status (in donor_notifications)
-
+0 - created
+1 - accepted
+2 - rejected
+3 - opened
+4 - deleted
+5 - donated
 
 enquiry_status (in enquiry)
 0 - created 
