@@ -59,8 +59,8 @@ $result = $stmt->get_result();
                             <td>{$row['request_status']}</td>
                             <td>{$row['request_time']}</td>
                             <td class='actions'>
-                                <a href='?page=view_requests.php&id={$row['request_id']}' class='view-btn'>View</a>
-                                <a href='?page=edit_requests.php&id={$row['request_id']}' class='edit-btn'>Edit</a>
+                                <a href='?page=view_requests.php?id={$row['request_id']}' class='view-btn'>View</a>
+                                <a href='?page=edit_requests.php?request_id={$row['request_id']}' class='edit-btn'>Edit</a>
                             </td>
                           </tr>";
                 }
