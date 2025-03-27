@@ -59,7 +59,7 @@ We welcome contributions! If you'd like to improve the platform, follow these st
 ## 📧 Contact
 For any queries or suggestions, feel free to reach out:
 - **Owner**: Vishal V Nair
-- **Email**: [vishalvnair124.com]
+- **Email**: vishalvnair124.com
 - **GitHub**: [vishalvnair124](https://github.com/vishalvnair124)
 
 ---
