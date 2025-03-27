@@ -27,7 +27,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 ?>
 
-<link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+<link rel="stylesheet" href="styles/styles.css"> <!-- Link to external CSS -->
 
 <div class="container">
     <div class="header">

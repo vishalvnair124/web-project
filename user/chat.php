@@ -50,7 +50,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with <?= htmlspecialchars($user['name']) ?></title> <!-- Display the chat user's name in the title -->
-    <link rel="stylesheet" href="styles.css"> <!-- External CSS -->
+    <link rel="stylesheet" href="styles/styles.css"> <!-- External CSS -->
 
     <style>
         /* Basic styling for the chat interface */

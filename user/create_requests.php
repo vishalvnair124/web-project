@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 ?>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles/styles.css">
 
 <div class="form-container">
     <div class="header">
