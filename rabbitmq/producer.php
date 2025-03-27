@@ -20,3 +20,10 @@ echo " [x] Sent 'Hello, RabbitMQ!'\n";
 // Close the channel and connection
 $channel->close();
 $connection->close();
+
+// After sending the message, check for the redirect parameter
+if (isset($_GET['redirectLocation'])) {
+    $redirectUrl = filter_var($_GET['redirectLocation'], FILTER_SANITIZE_URL);
+    header("Location: $redirectUrl");
+    exit();
+}

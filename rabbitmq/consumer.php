@@ -24,7 +24,7 @@ $callback = function ($msg) {
 
 
 
-    echo "processing\n";
+    echo "[x] processing\n";
 
     // Include database connection
     include '../common/connection.php';
@@ -65,7 +65,7 @@ $callback = function ($msg) {
             $mail->Body = "Hello,<br><br>You are requested to donate blood.<br><br>Regards,<br>Admin";
 
             if ($mail->send()) {
-                echo "Email sent to $recipient successfully!<br>";
+                echo "Email sent to $recipient successfully!<br>\n";
 
                 // Update donor_notifications_status to 1 after sending email
                 $updateQuery = "UPDATE donor_notifications 
@@ -74,7 +74,7 @@ $callback = function ($msg) {
                             WHERE users.email = '$recipient'";
                 mysqli_query($conn, $updateQuery);
             } else {
-                echo "Failed to send email to $recipient: " . $mail->ErrorInfo . "<br>";
+                echo "Failed to send email to $recipient: " . $mail->ErrorInfo . "<br>\n";
             }
         }
 

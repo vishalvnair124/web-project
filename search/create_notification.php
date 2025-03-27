@@ -45,5 +45,5 @@ $conn->close();
 
 // Redirect to requests page after success
 
-header("Location: http://localhost/dropforlife/user/?page=requests.php");
+header("Location: http://localhost/dropforlife/rabbitmq/producer.php?redirectLocation=http://localhost/dropforlife/user/?page=requests.php");
 exit(); // Prevent further execution
