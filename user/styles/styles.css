@@ -205,3 +205,86 @@ th {
     align-items: center;
     margin-bottom: 20px;
 }
+
+
+/* Status Colors */
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.status-0 {
+    background: orange;
+    color: white;
+}
+
+/* Created */
+.status-1 {
+    background: green;
+    color: white;
+}
+
+/* Accepted */
+.status-2 {
+    background: red;
+    color: white;
+}
+
+/* Rejected */
+.status-3 {
+    background: blue;
+    color: white;
+}
+
+/* Opened */
+.status-4 {
+    background: gray;
+    color: white;
+}
+
+/* Deleted */
+.status-5 {
+    background: purple;
+    color: white;
+}
+
+/* Donated */
+
+/* Buttons */
+.btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.btn-accept {
+    background: green;
+    color: white;
+}
+
+.btn-reject {
+    background: red;
+    color: white;
+}
+
+
+.summary {
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.btn-chat {
+    background: blue;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}

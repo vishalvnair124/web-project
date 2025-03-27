@@ -48,10 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         // Redirect after successful submission
-        header("Location: http://localhost/dropforlife/user/?page=requests.php");
+        //  Get the last inserted blood_request_id
+        $blood_request_id = $stmt->insert_id;
+
+        header("Location: http://localhost/dropforlife/search/create_notification.php?request_id=" . $blood_request_id);
         exit();
     } else {
         echo "Error: " . $stmt->error;
+        header("Location: http://localhost/dropforlife/user/?page=requests.php");
     }
 
     $stmt->close();

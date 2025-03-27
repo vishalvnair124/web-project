@@ -25,7 +25,7 @@ $conn->close(); // Close the database connection
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chats</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+    <link rel="stylesheet" href="styles/styles.css"> <!-- Link to external CSS -->
 
     <style>
         /* Basic styling for the chat list interface */

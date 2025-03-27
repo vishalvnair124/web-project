@@ -21,7 +21,7 @@ $row = $result->fetch_assoc();
 $conn->close();
 ?>
 
-<link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+<link rel="stylesheet" href="styles/styles.css"> <!-- Link to external CSS -->
 
 <div class="form-container">
     <h2>Edit Blood Request</h2>

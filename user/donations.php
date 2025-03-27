@@ -19,7 +19,7 @@ $result = $stmt->get_result();
 $conn->close();
 ?>
 
-<link rel="stylesheet" href="styles.css"> <!-- External CSS -->
+<link rel="stylesheet" href="styles/styles.css"> <!-- External CSS -->
 
 <div class="container">
     <div class="header">
@@ -43,11 +43,11 @@ $conn->close();
                         <td><?= htmlspecialchars($row['place']) ?></td>
                         <td>
                             <span class="status status-<?= $row['donor_notifications_status'] ?>">
-                                <?= ["Created", "Accepted", "Rejected", "Opened", "Deleted", "Donated"][$row['donor_notifications_status']] ?>
+                                <?= ["Pending", "Accepted", "Rejected", "Opened", "Deleted", "Donated", "Pending"][$row['donor_notifications_status']] ?>
                             </span>
                         </td>
                         <td>
-                            <?php if ($row['donor_notifications_status'] == 0): ?>
+                            <?php if ($row['donor_notifications_status'] == 0 || $row['donor_notifications_status'] == 6): ?>
                                 <button class="btn btn-accept" onclick="updateStatus(<?= $row['donor_notifications_id'] ?>, 1)">Accept</button>
                                 <button class="btn btn-reject" onclick="updateStatus(<?= $row['donor_notifications_id'] ?>, 2)">Reject</button>
                             <?php elseif ($row['donor_notifications_status'] == 1): ?>
@@ -78,80 +78,3 @@ $conn->close();
         xhr.send("notification_id=" + notificationId + "&status=" + status);
     }
 </script>
-
-<style>
-    /* Status Colors */
-    .status {
-        font-weight: bold;
-        padding: 5px 10px;
-        border-radius: 5px;
-        display: inline-block;
-    }
-
-    .status-0 {
-        background: orange;
-        color: white;
-    }
-
-    /* Created */
-    .status-1 {
-        background: green;
-        color: white;
-    }
-
-    /* Accepted */
-    .status-2 {
-        background: red;
-        color: white;
-    }
-
-    /* Rejected */
-    .status-3 {
-        background: blue;
-        color: white;
-    }
-
-    /* Opened */
-    .status-4 {
-        background: gray;
-        color: white;
-    }
-
-    /* Deleted */
-    .status-5 {
-        background: purple;
-        color: white;
-    }
-
-    /* Donated */
-
-    /* Buttons */
-    .btn {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-        font-size: 14px;
-        margin-right: 5px;
-    }
-
-    .btn-accept {
-        background: green;
-        color: white;
-    }
-
-    .btn-reject {
-        background: red;
-        color: white;
-    }
-
-    .btn-chat {
-        background: blue;
-        color: white;
-    }
-
-    .btn:hover {
-        opacity: 0.8;
-    }
-</style>
