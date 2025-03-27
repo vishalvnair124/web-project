@@ -9,14 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Check if form data is set
-    if (isset($_POST['name'], $_POST['email'], $_POST['password'])) {
+    if (isset($_POST['name'], $_POST['email'])) {
         // Get the form data
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
+
 
         // Check if email already exists
-        $checkEmailSql = "SELECT user_email FROM users WHERE user_email = ?";
+        $checkEmailSql = "SELECT email FROM users WHERE email = ?";
         if ($stmt = $conn->prepare($checkEmailSql)) {
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -26,24 +26,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Email already exists
                 header("Location: index.php?signup=email_exists");
             } else {
-                // Hash the password
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                // Prepare the SQL query to insert the user record
-                $sql = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
-                if ($stmt = $conn->prepare($sql)) {
-                    $stmt->bind_param("sss", $name, $email, $hashed_password);
-                    if ($stmt->execute()) {
-                        // Redirect with success message
-                        header("Location: index.php?signup=success");
-                    } else {
-                        // Redirect with error message
-                        header("Location: index.php?signup=error");
-                    }
-                    $stmt->close();
-                } else {
-                    echo "Failed to prepare the SQL statement: " . $conn->error;
-                }
+                //otp email 
+                //email
+                //session
+                //redirect
+
+                // vyshanavi
+                // vyshnavycm@gmail.com
+                // sub
+                // otp
+                //redirect
+
+
+
+                // Hash the password
+                // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+                //create  new user
+                // status 7
+
+                // mail sent
+
+
+
+                // // Hash the password
+                // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+                // // Prepare the SQL query to insert the user record
+                // $sql = "INSERT INTO users (user_name, email, user_password) VALUES (?, ?, ?)";
+                // if ($stmt = $conn->prepare($sql)) {
+                //     $stmt->bind_param("sss", $name, $email, $hashed_password);
+                //     if ($stmt->execute()) {
+                //         // Redirect with success message
+                //         header("Location: index.php?signup=success");
+                //     } else {
+                //         // Redirect with error message
+                //         header("Location: index.php?signup=error");
+                //     }
+                //     $stmt->close();
+                // } else {
+                //     echo "Failed to prepare the SQL statement: " . $conn->error;
+                // }
             }
             $stmt->close();
         } else {

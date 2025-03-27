@@ -31,7 +31,7 @@
     // Unset the session variables
     unset($_SESSION['email']);
     unset($_SESSION['fullname']);
-    // unset($_SESSION['empid']);
+    unset($_SESSION['empid']);
     unset($_SESSION['subject']);
     unset($_SESSION['message']);
     unset($_SESSION['goback']);

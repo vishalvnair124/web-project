@@ -24,10 +24,7 @@
           <input type="email" name="email" required />
           <label for="email">Email</label>
         </div>
-        <div class="input-group">
-          <input type="password" name="password" id="password" required />
-          <label for="password">Password</label>
-        </div>
+
         <div id="password-error" class="error-message"></div>
         <button type="submit" class="btn">Sign Up🩸</button>
         <div class="sign-link">
