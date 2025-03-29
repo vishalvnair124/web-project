@@ -8,8 +8,17 @@ if (!isset($_SESSION['user_id'])) {
     die("Unauthorized access. Please log in.");
 }
 ?>
-
+<link rel="stylesheet" href="leaflet.css" />
 <link rel="stylesheet" href="styles/styles.css">
+
+<style>
+    #map {
+        height: 300px;
+        /* Ensure the map is visible */
+        margin: 10px 0;
+        border-radius: 10px;
+    }
+</style>
 
 <div class="form-container">
     <div class="header">
@@ -45,6 +54,14 @@ if (!isset($_SESSION['user_id'])) {
         <label>Additional Notes:</label>
         <textarea name="additional_notes"></textarea>
 
+
+        <div id="map"></div>
+        <!-- <p>Selected Location: <span id="location"></span></p> -->
+
+        <script src="leaflet.js"></script>
+
+
+
         <label>Latitude:</label>
         <input type="text" id="latitude" name="latitude" readonly required>
 
@@ -60,26 +77,69 @@ if (!isset($_SESSION['user_id'])) {
 </div>
 
 <script>
+    var map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
+
+    // Add OpenStreetMap layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker;
+
+    map.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+
+        // Update Marker Position
+        if (marker) {
+            marker.setLatLng([lat, lng]);
+        } else {
+            marker = L.marker([lat, lng]).addTo(map);
+        }
+
+        // Update Input Fields
+        document.getElementById("latitude").value = lat;
+        document.getElementById("longitude").value = lng;
+        let locationSpan = document.getElementById("location");
+        if (locationSpan) {
+            locationSpan.innerText = `Lat: ${lat}, Lng: ${lng}`;
+        }
+
+
+        // Fetch Place Name
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("place").value = data.display_name || "Unknown Location";
+            })
+            .catch(() => document.getElementById("place").value = "Unknown Location");
+    });
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async function(position) {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
 
-                    document.getElementById("latitude").value = latitude;
-                    document.getElementById("longitude").value = longitude;
-
-                    if (!latitude || !longitude) {
-                        alert("Could not get location. Please try again.");
-                        return;
+                    // Update Marker & Move Map
+                    if (marker) {
+                        marker.setLatLng([lat, lng]);
+                    } else {
+                        marker = L.marker([lat, lng]).addTo(map);
                     }
+                    map.setView([lat, lng], 15); // Zoom to current location
 
-                    // Fetch location details using the backend
-                    const response = await fetch(`get_location.php?lat=${latitude}&lon=${longitude}`);
+                    // Update Input Fields
+                    document.getElementById("latitude").value = lat;
+                    document.getElementById("longitude").value = lng;
+                    document.getElementById("location").innerText = `Lat: ${lat}, Lng: ${lng}`;
+
+                    // Fetch Place Name
+                    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
                     const data = await response.json();
 
-                    if (data.place) {
-                        document.getElementById("place").value = data.place;
+                    if (data.display_name) {
+                        document.getElementById("place").value = data.display_name;
                     } else {
                         document.getElementById("place").value = "Unknown Location";
                     }
