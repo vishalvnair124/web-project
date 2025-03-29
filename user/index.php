@@ -14,6 +14,7 @@ include '../common/session_check.php';
     <link rel="stylesheet" href="./styles/newstyle.css"> <!-- Main stylesheet -->
     <link rel="stylesheet" href="./styles/responsive.css"> <!-- Responsive stylesheet for mobile devices -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery for easier AJAX handling -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" /><!-- Leaflet CSS for map display -->
 </head>
 
 <body>
