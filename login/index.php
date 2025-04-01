@@ -26,6 +26,10 @@
   </div>
   <button type="submit" class="btn">Get OTP 🩸</button>
   <div class="sign-link">
+  <p>
+            Already have an account?
+            <a href="#" class="signIn-link">Login In</a>
+          </p>
     
 
 
