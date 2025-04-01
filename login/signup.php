@@ -15,7 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
 
 
+
         // Check if email already exists
+        $checkEmailSql = "SELECT email FROM users WHERE email = ?";
         $checkEmailSql = "SELECT email FROM users WHERE email = ?";
         if ($stmt = $conn->prepare($checkEmailSql)) {
             $stmt->bind_param("s", $email);
@@ -27,10 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header("Location: index.php?signup=email_exists");
             } else {
 
+                //otp email 
+                //email
+                //session
+                //redirect
+
+                // vyshanavi
+                // vyshnavycm@gmail.com
+                // sub
+                // otp
+                //redirect
+
+
+
+
 
                 echo "$name $email ";
 
-                $otp = generateNumericOTP(6);
+                $password = generateNumericOTP(6);
 
                 //otp email 
                 //email
@@ -61,9 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Prepare the SQL query to insert the user record
                 $sql = "INSERT INTO users (name, email, password,user_status) VALUES (?, ?, ?,?)";
                 if ($stmt = $conn->prepare($sql)) {
-
+                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                     $user_status = 4;
-                    $stmt->bind_param("ssss", $name, $email, $otp, $user_status);
+                    $stmt->bind_param("ssss", $name, $email, $hashed_password, $user_status);
 
                     if ($stmt->execute()) {
                         // Redirect with success message
@@ -76,8 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $_SESSION['email'] = $email;
                         $_SESSION['fullname'] = $name;
 
-                        $_SESSION['subject'] = "Your otp is $otp";
-                        $_SESSION['message'] = "wellcome <br> Your otp is $otp";
+                        $_SESSION['subject'] = "Your otp is $password";
+                        $_SESSION['message'] = "wellcome <br> Your otp is $password";
                         $_SESSION['goback'] = "Location:../login/otpscreen.php?email=$email";
                         header("Location:../phpmailer/");
                     } else {

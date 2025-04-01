@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['otp'];
 
         // Prepare the SQL query to fetch the user record
-        $sql = "SELECT user_password FROM users WHERE user_email = ?";
+        $sql = "SELECT password FROM users WHERE email = ?";
 
         // Prepare the statement
         if ($stmt = $conn->prepare($sql)) {

@@ -14,19 +14,21 @@
   <div class="wrapper">
     <!-- Sign Up Form -->
     <div class="form-wrapper sign-up">
-    <form action="signup.php" method="post">
-  <h2>Sign Up🩸</h2>
-  <div class="input-group">
-    <input type="text" name="name" required />
-    <label for="name">Name</label>
-  </div>
-  <div class="input-group">
-    <input type="email" name="email" required />
-    <label for="email">Email</label>
-  </div>
-  <button type="submit" class="btn">Get OTP 🩸</button>
-  <div class="sign-link">
-  <p>
+      <form action="signup.php" method="post">
+        <h2>Sign Up🩸</h2>
+        <div class="input-group">
+          <input type="text" name="name" required />
+          <label for="name">Name</label>
+        </div>
+        <div class="input-group">
+          <input type="email" name="email" required />
+          <label for="email">Email</label>
+        </div>
+
+        <div id="password-error" class="error-message"></div>
+        <button type="submit" class="btn">Sign Up🩸</button>
+        <div class="sign-link">
+          <p>
             Already have an account?
             <a href="#" class="signIn-link">Login In</a>
           </p>

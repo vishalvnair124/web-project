@@ -106,3 +106,17 @@ CREATE TABLE reports (
     FOREIGN KEY (reported_by) REFERENCES users(user_id) ,
     FOREIGN KEY (reported_user) REFERENCES users(user_id)
 );
+
+
+
+UPDATE users
+SET user_distance = (
+    (6371 * ACOS(
+        COS(RADIANS(9.9312)) * COS(RADIANS(latitude)) * 
+        COS(RADIANS(longitude) - RADIANS(76.2673)) + 
+        SIN(RADIANS(9.9312)) * SIN(RADIANS(latitude))
+    ))) * 
+    CASE 
+        WHEN latitude >= 9.9312 THEN 1  -- North of Kochi → Distance remains positive
+        ELSE -1                         -- South of Kochi → Distance becomes negative
+    END;

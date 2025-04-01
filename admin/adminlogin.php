@@ -14,7 +14,6 @@
         <div class="form-wrapper sign-in">
             <form action="login_check.php" method="post">
                 <h2>Admin Login🩸</h2>
-
                 <div class="input-group">
                     <input type="email" name="email" required />
                     <label for="email">Email</label>
