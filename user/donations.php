@@ -47,11 +47,14 @@ $conn->close();
                             </span>
                         </td>
                         <td>
+                            <a href="?page=details_donations.php?request_id=<?= $row['request_id'] ?>" class="btn btn-details">Details</a>
+
                             <?php if ($row['donor_notifications_status'] == 0 || $row['donor_notifications_status'] == 6): ?>
                                 <button class="btn btn-accept" onclick="updateStatus(<?= $row['donor_notifications_id'] ?>, 1)">Accept</button>
                                 <button class="btn btn-reject" onclick="updateStatus(<?= $row['donor_notifications_id'] ?>, 2)">Reject</button>
                             <?php elseif ($row['donor_notifications_status'] == 1): ?>
                                 <a href="chat.php?user_id=<?= $row['recipient_id'] ?>" class="btn btn-chat">Chat</a>
+
                             <?php endif; ?>
                         </td>
                     </tr>

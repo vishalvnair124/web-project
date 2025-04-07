@@ -53,11 +53,7 @@ include '../common/session_check.php';
                         <img src="../media/blood-donation.png" class="nav-img" alt="donations">
                         <h3>Donations</h3>
                     </a>
-                    <!-- testimonials Option -->
-                    <a href="?page=testimonials.php" class="nav-option no-a" data-page="testimonials.php">
-                        <img src="../media/testimonial.png" class="nav-img" alt="testimonials">
-                        <h3>Testimonials</h3>
-                    </a>
+
                     <!-- Settings Navigation Option -->
                     <a href="?page=settings.php" class="nav-option no-a" data-page="settings.php">
                         <img src="../media/settings_icon.png" class="nav-img" alt="settings">
