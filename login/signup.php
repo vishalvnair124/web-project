@@ -9,14 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Check if form data is set
-    if (isset($_POST['name'], $_POST['email'], $_POST['password'])) {
+    if (isset($_POST['name'], $_POST['email'])) {
         // Get the form data
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
+
+
 
         // Check if email already exists
-        $checkEmailSql = "SELECT user_email FROM users WHERE user_email = ?";
+        $checkEmailSql = "SELECT email FROM users WHERE email = ?";
+        $checkEmailSql = "SELECT email FROM users WHERE email = ?";
         if ($stmt = $conn->prepare($checkEmailSql)) {
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -26,16 +28,74 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Email already exists
                 header("Location: index.php?signup=email_exists");
             } else {
+
+                //otp email 
+                //email
+                //session
+                //redirect
+
+                // vyshanavi
+                // vyshnavycm@gmail.com
+                // sub
+                // otp
+                //redirect
+
+
+
+
+
+                echo "$name $email ";
+
+                $password = generateNumericOTP(6);
+
+                //otp email 
+                //email
+                //session
+                //redirect
+
+                // vyshanavi
+                // vyshnavycm@gmail.com
+                // sub
+                // otp
+                //redirect
+
+
+
                 // Hash the password
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+                //create  new user
+                // status 7
+
+                // mail sent
+
+
+
+                // // Hash the password
+                // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
                 // Prepare the SQL query to insert the user record
-                $sql = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO users (name, email, password,user_status) VALUES (?, ?, ?,?)";
                 if ($stmt = $conn->prepare($sql)) {
-                    $stmt->bind_param("sss", $name, $email, $hashed_password);
+                    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                    $user_status = 4;
+                    $stmt->bind_param("ssss", $name, $email, $hashed_password, $user_status);
+
                     if ($stmt->execute()) {
                         // Redirect with success message
-                        header("Location: index.php?signup=success");
+
+
+
+                        session_start(); // Start the session
+
+                        // Retrieve the data
+                        $_SESSION['email'] = $email;
+                        $_SESSION['fullname'] = $name;
+
+                        $_SESSION['subject'] = "Your otp is $password";
+                        $_SESSION['message'] = "wellcome <br> Your otp is $password";
+                        $_SESSION['goback'] = "Location:../login/otpscreen.php?email=$email";
+                        header("Location:../phpmailer/");
                     } else {
                         // Redirect with error message
                         header("Location: index.php?signup=error");
@@ -57,4 +117,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 } else {
     echo "Invalid request method.";
+}
+
+
+
+
+// Function to generate OTP 
+function generateNumericOTP($n)
+{
+
+    $generator = "1357902468";
+
+
+    $result = "";
+
+    for ($i = 1; $i <= $n; $i++) {
+        $result .= substr($generator, (rand() % (strlen($generator))), 1);
+    }
+
+    // Return result 
+    return $result;
 }

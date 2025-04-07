@@ -1,3 +1,4 @@
+
 <?php
 $servername = "localhost"; // Your server name or IP address
 $username = "root"; // Your database username

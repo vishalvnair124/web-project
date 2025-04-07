@@ -15,14 +15,14 @@
             <form action="login_check.php" method="post">
                 <h2>Admin Login🩸</h2>
 
+
                 <!-- CSRF Protection -->
                 <?php
                 session_start();
                 $csrf_token = bin2hex(random_bytes(32));
                 $_SESSION['csrf_token'] = $csrf_token;
                 ?>
-                <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-
+                <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>"
                 <div class="input-group">
                     <input type="email" name="email" id="email" required autocomplete="email" />
                     <label for="email">Email</label>
