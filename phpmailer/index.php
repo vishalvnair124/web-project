@@ -22,7 +22,6 @@
     // Retrieve the data
     $email = $_SESSION['email'];
     $fullname = $_SESSION['fullname'];
-    // $empid = $_SESSION['empid'];
     $subject = $_SESSION['subject'];
     $message = $_SESSION['message'];
     $goback = $_SESSION['goback'];
@@ -31,7 +30,6 @@
     // Unset the session variables
     unset($_SESSION['email']);
     unset($_SESSION['fullname']);
-    unset($_SESSION['empid']);
     unset($_SESSION['subject']);
     unset($_SESSION['message']);
     unset($_SESSION['goback']);
@@ -41,7 +39,7 @@
 
     function sendEmail($recipient, $name, $subject, $message, $goback)
     {
-        //Create an instance; passing `true` enables exceptions
+        //Create an instance; passing true enables exceptions
         $mail = new PHPMailer(true);
 
         try {
@@ -51,9 +49,9 @@
             $mail->Host       = 'smtp.gmail.com';               //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                           //Enable SMTP authentication
             $mail->Username   = 'database71231@gmail.com';      //Your Gmail Id
-            $mail->Password   = 'emss jdao gbko canb';          //Your App password
+            $mail->Password   = 'pgxf ajpr frrt xiqb';          //Your App password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
-            $mail->Port       = 587;  //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->Port       = 587;  //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
 
             //Recipients
             $mail->setFrom('database71231@gmail.com', 'Admin');
