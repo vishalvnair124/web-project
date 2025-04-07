@@ -38,10 +38,7 @@ include '../common/session_check_admin.php';
                         <img src="../media/request.png" class="nav-img" alt="requests">
                         <h3>Requests</h3>
                     </a>
-                    <a href="?page=testimonials.php" class="nav-option no-a" data-page="testimonials.php">
-                        <img src="../media/testimonial.png" class="nav-img" alt="testimonials">
-                        <h3>Testimonials</h3>
-                    </a>
+
                     <a href="?page=users.php" class="nav-option no-a" data-page="users.php">
                         <img src="../media/users.png" class="nav-img" alt="users">
                         <h3>Users</h3>
