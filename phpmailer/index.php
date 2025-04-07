@@ -39,7 +39,7 @@
 
     function sendEmail($recipient, $name, $subject, $message, $goback)
     {
-        //Create an instance; passing `true` enables exceptions
+        //Create an instance; passing true enables exceptions
         $mail = new PHPMailer(true);
 
         try {
@@ -51,7 +51,7 @@
             $mail->Username   = 'database71231@gmail.com';      //Your Gmail Id
             $mail->Password   = 'pgxf ajpr frrt xiqb';          //Your App password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
-            $mail->Port       = 587;  //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->Port       = 587;  //TCP port to connect to; use 587 if you have set SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS
 
             //Recipients
             $mail->setFrom('database71231@gmail.com', 'Admin');

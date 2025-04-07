@@ -32,8 +32,11 @@
             Already have an account?
             <a href="#" class="signIn-link">Login In</a>
           </p>
-        </div>
-      </form>
+    
+
+
+  </div>
+</form>
     </div>
 
     <!-- Login Form -->
