@@ -15,11 +15,13 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
   <title>Donor Registration - Drop4Life 🩸</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #e53935, #1e88e5); /* red to blue gradient */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
     .container {
       max-width: 700px;
       margin: 40px auto;
