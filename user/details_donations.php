@@ -59,7 +59,9 @@ $conn->close();
         </tr>
         <tr>
             <th>Need By:</th>
-            <td><?= htmlspecialchars($request['when_need_blood']) ?></td>
+            <td>
+                <?= date("F j, Y g:i A", strtotime($request['when_need_blood'])) ?>
+            </td>
         </tr>
         <tr>
             <th>Additional Notes:</th>
