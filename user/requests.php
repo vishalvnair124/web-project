@@ -2,11 +2,33 @@
 // Start session and include database connection
 session_start();
 include '../common/connection.php';
+$statusLabels = [
+    1 => "Request Created",
+    3 => "Pending",
+    4 => "Successfully Closed",
+    5 => "Blocked by Admin",
+    6 => "Closed Request"
+];
+
 
 // Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
     die("Unauthorized access. Please log in.");
 }
+
+if (isset($_GET['msg']) && $_GET['msg'] == 'maxlevel') {
+    echo "<script>alert('This is the maximum request level.');</script>";
+}
+
+?>
+<script>
+    if (window.location.search.includes('msg=maxlevel')) {
+        alert('This is the maximum request level.');
+        // Remove the query string
+        window.history.replaceState(null, null, window.location.pathname);
+    }
+</script>
+<?php
 
 $user_id = $_SESSION['user_id']; // Get logged-in user's ID
 
@@ -51,13 +73,14 @@ $result = $stmt->get_result();
             <?php
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
+                    $statusText = $statusLabels[$row['request_status']] ?? "Unknown";
                     echo "<tr>
                             <td>{$row['blood_group']}</td>
                             <td>{$row['request_units']}</td>
                             <td>{$row['hospital_name']}</td>
                             <td>{$row['doctor_name']}</td>
-                            <td>{$row['request_status']}</td>
-                            <td>{$row['request_time']}</td>
+                                <td>{$statusText}</td>
+                            <td>" . date("M d, Y h:i A", strtotime($row['request_time'])) . "</td>
                             <td class='actions'>
                                 <a href='?page=view_requests.php?id={$row['request_id']}' class='view-btn'>View</a>
                                 <a href='?page=edit_requests.php?request_id={$row['request_id']}' class='edit-btn'>Edit</a>

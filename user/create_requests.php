@@ -56,8 +56,15 @@ if (!isset($_SESSION['user_id'])) {
 
 
         <div id="map"></div>
-        <!-- <p>Selected Location: <span id="location"></span></p> -->
-
+        <p>Selected Location: <span id="location"></span></p>
+        <style>
+            #location,
+            p {
+                display: none;
+                visibility: hidden;
+                opacity: 0;
+            }
+        </style>
         <script src="leaflet.js"></script>
 
 
@@ -104,10 +111,11 @@ if (!isset($_SESSION['user_id'])) {
         if (locationSpan) {
             locationSpan.innerText = `Lat: ${lat}, Lng: ${lng}`;
         }
-
+        latValue = lat.toFixed(6);
+        lngValue = lng.toFixed(6);
 
         // Fetch Place Name
-        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latValue}&lon=${lngValue}`)
             .then(response => response.json())
             .then(data => {
                 document.getElementById("place").value = data.display_name || "Unknown Location";
@@ -133,6 +141,7 @@ if (!isset($_SESSION['user_id'])) {
                     document.getElementById("latitude").value = lat;
                     document.getElementById("longitude").value = lng;
                     document.getElementById("location").innerText = `Lat: ${lat}, Lng: ${lng}`;
+
 
                     // Fetch Place Name
                     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
