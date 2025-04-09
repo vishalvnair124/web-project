@@ -61,51 +61,51 @@ while ($donor = $donors->fetch_assoc()) {
         <h2>Blood Request Details</h2>
         <table class="details-table">
             <tr>
-                <th>Request ID:</th>
+                <th>Request ID</th>
                 <td><?php echo $request['request_id']; ?></td>
             </tr>
             <tr>
-                <th>Recipient Name:</th>
+                <th>Recipient Name</th>
                 <td><?php echo $request['name']; ?></td>
             </tr>
             <tr>
-                <th>Email:</th>
+                <th>Email</th>
                 <td><?php echo $request['email']; ?></td>
             </tr>
             <tr>
-                <th>Phone:</th>
+                <th>Phone</th>
                 <td><?php echo $request['phone']; ?></td>
             </tr>
             <tr>
-                <th>Blood Group:</th>
+                <th>Blood Group</th>
                 <td><?php echo $request['blood_group']; ?></td>
             </tr>
             <tr>
-                <th>Units Needed:</th>
+                <th>Units Needed</th>
                 <td><?php echo $request['request_units']; ?></td>
             </tr>
             <tr>
-                <th>Hospital:</th>
+                <th>Hospital</th>
                 <td><?php echo $request['hospital_name']; ?></td>
             </tr>
             <tr>
-                <th>Doctor Name:</th>
+                <th>Doctor Name</th>
                 <td><?php echo $request['doctor_name']; ?></td>
             </tr>
             <tr>
-                <th>Additional Notes:</th>
+                <th>Additional Notes</th>
                 <td><?php echo $request['additional_notes']; ?></td>
             </tr>
             <tr>
-                <th>Location:</th>
+                <th>Location</th>
                 <td><?php echo $request['place']; ?></td>
             </tr>
             <tr>
-                <th>Latitude:</th>
+                <th>Latitude</th>
                 <td><?php echo $request['latitude']; ?></td>
             </tr>
             <tr>
-                <th>Longitude:</th>
+                <th>Longitude</th>
                 <td><?php echo $request['longitude']; ?></td>
             </tr>
         </table>

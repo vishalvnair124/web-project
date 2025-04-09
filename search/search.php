@@ -31,10 +31,10 @@ if (!$recipient_lat || !$recipient_lon || !$recipient_blood_group) {
 $distance_from_kochilat = haversineDistance($kochilat, $kochilon, $recipient_lat, $recipient_lon);
 
 // Set the limit of donors based on request level
-$limit = ($level == 2) ? 20 : 10; // Level 1 → 10 donors, Level 2 → 20 donors
+$limit = $level * 10; // Level 1 → 10 donors, Level 2 → 20 donors
 
 // Find available donors within the required distance range
-$donors = getDonorsWithinDistance($conn, $recipient_blood_group, $distance_from_kochilat, $limit);
+$donors = getDonorsWithinDistance($conn, $recipient_blood_group, $distance_from_kochilat, $limit, $request_id);
 
 // Return results as a JSON response
 header('Content-Type: application/json');
@@ -67,51 +67,53 @@ function haversineDistance($lat1, $lon1, $lat2, $lon2)
 }
 
 /**
- * Function to find exactly (request_level * 10) donors
+ * Function to find exactly (request_level * 10) donors, excluding already-notified ones
  *
  * @param mysqli $conn Database connection
  * @param string $blood_group Required blood group
  * @param float $initial_distance Initial distance from Kochi
  * @param int $limit Number of donors to fetch
+ * @param int $request_id Request ID to exclude previously notified donors
  * @return array List of matching donors
  */
-function getDonorsWithinDistance($conn, $blood_group, $initial_distance, $limit)
+function getDonorsWithinDistance($conn, $blood_group, $initial_distance, $limit, $request_id)
 {
     $donors = []; // Store matched donors
     $search_distance = $initial_distance;
     $increment = 5; // Expand search range if not enough donors found
 
     while (count($donors) < $limit) {
-        // Query to find donors within the search distance
-        $sql = "SELECT user_id, name, blood_group, user_distance
-                FROM users
-                WHERE availability_status = 1
-                  AND blood_group = ?
-                  AND ABS(user_distance - ?) <= 2  -- Find users within a small range
-                ORDER BY user_distance ASC
+        // Query to find donors within the search distance who were not already notified for this request
+        $sql = "SELECT u.user_id, u.name, u.blood_group, u.user_distance
+                FROM users u
+                WHERE u.availability_status = 1
+                  AND u.blood_group = ?
+                  AND ABS(u.user_distance - ?) <= 2
+                  AND NOT EXISTS (
+                      SELECT 1 FROM donor_notifications dn
+                      WHERE dn.donor_id = u.user_id AND dn.request_id = ?
+                  )
+                ORDER BY u.user_distance ASC
                 LIMIT ?";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sdi", $blood_group, $search_distance, $limit); // Bind parameters
+        $stmt->bind_param("sdii", $blood_group, $search_distance, $request_id, $limit); // Updated to 4 params
         $stmt->execute();
         $result = $stmt->get_result();
 
-        // Add fetched donors to the list
         while ($row = $result->fetch_assoc()) {
             $donors[] = $row;
-            if (count($donors) == $limit) break; // Stop once we reach the required limit
+            if (count($donors) == $limit) break;
         }
 
         $stmt->close();
 
-        // Stop searching if we have exactly the required users
         if (count($donors) >= $limit) {
             break;
         }
 
-        // Expand search range
         $search_distance += $increment;
     }
 
-    return array_slice($donors, 0, $limit); // Ensure we return only the required number of users
+    return array_slice($donors, 0, $limit); // Return only the required number
 }
