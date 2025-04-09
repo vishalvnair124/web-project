@@ -1,7 +1,6 @@
 <?php
 session_start();
 if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
-  // Redirect to OTP page if not verified
   header("Location: otpscreen.php?error=unauthorized");
   exit();
 }
@@ -15,13 +14,12 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
   <title>Donor Registration - Drop4Life 🩸</title>
   <style>
     body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to bottom right, #e53935, #1e88e5); /* red to blue gradient */
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #e53935, #1e88e5);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
     .container {
       max-width: 700px;
       margin: 40px auto;
@@ -55,7 +53,7 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
     input[type="radio"] {
       margin: 0 5px 0 15px;
     }
-    button[type="submit"], button[type="button"] {
+    button[type="submit"] {
       margin-top: 25px;
       width: 100%;
       padding: 12px;
@@ -67,7 +65,7 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-    button[type="submit"]:hover, button[type="button"]:hover {
+    button[type="submit"]:hover {
       background-color: #a91e1e;
     }
     hr {
@@ -80,11 +78,7 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
   <script>
     function toggleDonorDetails(value) {
       const donorSection = document.getElementById('donor-details');
-      if (value === 'Yes') {
-        donorSection.style.display = 'block';
-      } else {
-        donorSection.style.display = 'none';
-      }
+      donorSection.style.display = (value === 'Yes') ? 'block' : 'none';
     }
   </script>
 </head>
@@ -97,8 +91,8 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
 
       <label>Email Address</label>
       <input type="email" name="email" required 
-       value="<?php echo isset($_SESSION['user_email']) ? htmlspecialchars($_SESSION['user_email']) : ''; ?>" 
-       readonly>
+        value="<?php echo isset($_SESSION['user_email']) ? htmlspecialchars($_SESSION['user_email']) : ''; ?>" 
+        readonly>
 
       <label>Phone Number</label>
       <input type="tel" name="phone" required placeholder="Enter phone number">
@@ -140,11 +134,23 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
         <label>Weight (kg)</label>
         <input type="number" name="weight" step="0.1">
 
+        <label>Height (cm)</label>
+        <input type="number" name="height" step="0.1">
+
+        <label>Pulse Rate (bpm)</label>
+        <input type="number" name="pulse_rate" step="1">
+
+        <label>Body Temperature (°C)</label>
+        <input type="number" name="body_temperature" step="0.1">
+
         <label>Blood Pressure</label>
         <input type="text" name="blood_pressure" placeholder="e.g., 120/80">
 
         <label>Hemoglobin Level (g/dL)</label>
         <input type="number" name="hemoglobin_level" step="0.1">
+
+        <label>Cholesterol Level (mg/dL)</label>
+        <input type="number" name="cholesterol" step="0.1">
 
         <label>Blood Group</label>
         <select name="blood_group">
@@ -158,20 +164,25 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
           <option value="AB-">AB-</option>
         </select>
 
+        <label>Last Blood Donation Date</label>
+        <input type="date" name="last_donation_date">
+
         <label>Chronic Diseases</label>
         <input type="text" name="chronic_diseases" placeholder="List or type 'None'">
 
         <label>Medications</label>
         <input type="text" name="medications" placeholder="List or type 'None'">
 
-        <label>Do you smoke?</label>
-        <select name="smoking_status">
+        
+
+        <label>Do you consume alcohol?</label>
+        <select name="alcohol_consumption">
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
 
-        <label>Do you consume alcohol?</label>
-        <select name="alcohol_consumption">
+        <label>Do you have any tattoos or piercings (last 6 months)?</label>
+        <select name="tattoos_piercings">
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
