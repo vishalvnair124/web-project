@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9c2c2;
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 240px;
+    background-color: white;
+    padding: 20px 0;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar h2,
+  .sidebar a {
+    padding: 12px 24px;
+    display: block;
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .sidebar a.active {
+    background-color: red;
+    color: white;
+    border-radius: 0 25px 25px 0;
+  }
+  
+  .content {
+    margin-left: 240px;
+    flex-grow: 1;
+    padding: 100px 20px 20px;
+  }
+  
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 240px;
+    right: 0;
+    height: 60px;
+    background-color: #ffe4e4;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    max-width: 420px;
+    margin: auto;
+  }
+  
+  .card h2 {
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  
+  form label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 500;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px 14px;
+    margin-top: 6px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    width: 100%;
+    background-color: #00c292;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #00a07c;
+  }
+  
+  #popupMessage {
+    display: none;
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 6px;
+  }
+  
+  .success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }

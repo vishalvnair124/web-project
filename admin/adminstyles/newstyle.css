@@ -374,4 +374,114 @@ tr:nth-child(odd) {
     background-color: var(--background-color3);
 }
 
+tr:nth-child(even) {
+    background-color: #ffeaea;
+    /* Light grey for even rows */
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+    /* White for odd rows */
+}
+
+/* Add styles for the selected sidebar option */
+.nav-option.selected {
+    border-left: 5px solid var(--secondary-color);
+    background-color: var(--background-color3);
+}
+  
+  /* ---------------- DARK MODE SUPPORT ---------------- */
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+  
+    .nav, .main {
+      background-color: #1e1e1e;
+    }
+  
+    .nav-option {
+      color: #f1f1f1;
+    }
+  
+    .nav-option.selected {
+      background-color: #d60000;
+      color: #fff;
+    }
+  }
+  
+  
+  /* ---------------- ACTIVE NAV ITEM HIGHLIGHT ---------------- */
+  .nav-option.selected {
+    background-color: #d60000;
+    color: #fff;
+    border-left: 5px solid #fff;
+    transition: background-color 0.3s, border-left 0.3s;
+  }
+  
+  
+  /* ---------------- HOVER EFFECT FOR NAV AND BUTTONS ---------------- */
+  .nav-option:hover,
+  button:hover {
+    background-color: #d60000;
+    color: white;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+  }
+  
+  
+  /* ---------------- RESPONSIVE SIDEBAR ---------------- */
+  @media (max-width: 768px) {
+    .navcontainer {
+      position: fixed;
+      left: -100%;
+      top: 0;
+      width: 70%;
+      height: 100%;
+      background-color: #fff;
+      transition: left 0.3s ease-in-out;
+      z-index: 1000;
+    }
+  
+    .navcontainer.navclose {
+      left: 0;
+    }
+  
+    .main {
+      padding-left: 0 !important;
+    }
+  }
+  
+  
+  /* ---------------- SCROLLBAR STYLING ---------------- */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #d60000;
+    border-radius: 10px;
+  }
+  
+  
+  /* ---------------- PURE CSS SPINNER ---------------- */
+  .spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #d60000;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+
+/* Other existing styles */
+
 /* Other existing styles */
