@@ -1,0 +1,79 @@
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2,
+h3 {
+    text-align: center;
+    color: #333;
+}
+
+.details-table,
+.donors-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.details-table th,
+.details-table td,
+.donors-table th,
+.donors-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.details-table th,
+.donors-table th {
+    background: #f44336;
+    color: #fff;
+}
+
+.donors-table tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.summary {
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.chat-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #e53935;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.chat-btn:hover {
+    background: #218838;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .details-table th,
+    .details-table td,
+    .donors-table th,
+    .donors-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .chat-btn {
+        padding: 6px 10px;
+    }
+}
