@@ -91,7 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Retrieve the data
                         $_SESSION['email'] = $email;
                         $_SESSION['fullname'] = $name;
-
                         $_SESSION['subject'] = "Your otp is $password";
                         $_SESSION['message'] = "wellcome <br> Your otp is $password";
                         $_SESSION['goback'] = "Location:../login/otpscreen.php?email=$email";

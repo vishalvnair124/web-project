@@ -31,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     // ✅ Start session and store session variables
                     session_start();
-                    $_SESSION['user_email'] = $email; // ✅ As you asked
-                    $_SESSION['otp_verified'] = true; // ✅ As you asked
+                    $_SESSION['user_email'] = $email;
+                    $_SESSION['otp_verified'] = true;
 
                     // ✅ Redirect to registration form
                     header("Location: registration_form.php");

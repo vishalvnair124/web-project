@@ -1,17 +1,30 @@
+<!-- registration_form.php -->
 <?php
 session_start();
-if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
-  header("Location: otpscreen.php?error=unauthorized");
-  exit();
-}
+// if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
+//   header("Location: otpscreen.php?error=unauthorized");
+//   exit();
+// }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Donor Registration - Drop4Life 🩸</title>
+  <style>
+    /* your existing CSS remains unchanged */
+  </style>
+  <script>
+    function toggleDonorDetails(value) {
+      document.getElementById('donor-details').style.display = (value === 'Yes') ? 'block' : 'none';
+    }
+  </script>
+</head>
+
+<body>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,6 +33,7 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
       margin: 0;
       padding: 0;
     }
+
     .container {
       max-width: 700px;
       margin: 40px auto;
@@ -28,15 +42,19 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
       border-radius: 12px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
-    h2, h3 {
+
+    h2,
+    h3 {
       text-align: center;
       color: #c62828;
     }
+
     form label {
       display: block;
       margin-top: 15px;
       font-weight: 600;
     }
+
     input[type="text"],
     input[type="email"],
     input[type="tel"],
@@ -50,9 +68,11 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
       border-radius: 8px;
       box-sizing: border-box;
     }
+
     input[type="radio"] {
       margin: 0 5px 0 15px;
     }
+
     button[type="submit"] {
       margin-top: 25px;
       width: 100%;
@@ -65,37 +85,30 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     button[type="submit"]:hover {
       background-color: #a91e1e;
     }
+
     hr {
       margin: 30px 0;
     }
+
     #donor-details {
       display: none;
     }
   </style>
-  <script>
-    function toggleDonorDetails(value) {
-      const donorSection = document.getElementById('donor-details');
-      donorSection.style.display = (value === 'Yes') ? 'block' : 'none';
-    }
-  </script>
-</head>
-<body>
   <div class="container">
-    <h2> Registration Form 🩸</h2>
-    <form action="submit_registration.php" method="GET">
+    <h2>Registration Form 🩸</h2>
+    <form action="submit_registration.php" method="POST">
       <label>Full Name</label>
-      <input type="text" name="fullname" required placeholder="Enter full name">
+      <input type="text" name="fullname" required>
 
       <label>Email Address</label>
-      <input type="email" name="email" required 
-        value="<?php echo isset($_SESSION['user_email']) ? htmlspecialchars($_SESSION['user_email']) : ''; ?>" 
-        readonly>
+      <input type="email" name="email" required value="<?php echo htmlspecialchars($_SESSION['user_email']); ?>" readonly>
 
       <label>Phone Number</label>
-      <input type="tel" name="phone" required placeholder="Enter phone number">
+      <input type="tel" name="phone" required>
 
       <label>Birth Date</label>
       <input type="date" name="birthdate" required>
@@ -105,20 +118,25 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
       <input type="radio" name="gender" value="Female"> Female
       <input type="radio" name="gender" value="Prefer not to say"> Prefer not to say
 
-      <label>Address Line 1</label>
-      <input type="text" name="address1" required>
+      <label>Latitude</label>
+      <input type="text" id="latitude" name="latitude" required readonly placeholder="Fetching latitude...">
 
-      <label>Address Line 2</label>
-      <input type="text" name="address2">
+      <label>Longitude</label>
+      <input type="text" id="longitude" name="longitude" required readonly placeholder="Fetching longitude...">
 
-      <label>District</label>
-      <input type="text" name="district" required>
+      <label>Blood Group</label>
+      <select name="blood_group" required>
+        <option value="">Select Blood Group</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+      </select>
 
-      <label>State</label>
-      <input type="text" name="state" required>
-
-      <label>Postal Code</label>
-      <input type="text" name="postal" required>
 
       <label>Are you interested in donating blood?</label>
       <select name="interested" onchange="toggleDonorDetails(this.value)" required>
@@ -127,7 +145,7 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
         <option value="No">No</option>
       </select>
 
-      <div id="donor-details">
+      <div id="donor-details" style="display:none;">
         <hr>
         <h3>Health Details</h3>
 
@@ -138,66 +156,71 @@ if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
         <input type="number" name="height" step="0.1">
 
         <label>Pulse Rate (bpm)</label>
-        <input type="number" name="pulse_rate" step="1">
+        <input type="number" name="pulse_rate">
 
         <label>Body Temperature (°C)</label>
         <input type="number" name="body_temperature" step="0.1">
 
         <label>Blood Pressure</label>
-        <input type="text" name="blood_pressure" placeholder="e.g., 120/80">
+        <input type="text" name="blood_pressure">
 
         <label>Hemoglobin Level (g/dL)</label>
         <input type="number" name="hemoglobin_level" step="0.1">
 
         <label>Cholesterol Level (mg/dL)</label>
         <input type="number" name="cholesterol" step="0.1">
+        <label>Do you have any chronic diseases?</label>
+        <input type="text" name="chronic_diseases">
 
-        <label>Blood Group</label>
-        <select name="blood_group">
-          <option value="A+">A+</option>
-          <option value="A-">A-</option>
-          <option value="B+">B+</option>
-          <option value="B-">B-</option>
-          <option value="O+">O+</option>
-          <option value="O-">O-</option>
-          <option value="AB+">AB+</option>
-          <option value="AB-">AB-</option>
-        </select>
-
-        <label>Last Blood Donation Date</label>
-        <input type="date" name="last_donation_date">
-
-        <label>Chronic Diseases</label>
-        <input type="text" name="chronic_diseases" placeholder="List or type 'None'">
-
-        <label>Medications</label>
-        <input type="text" name="medications" placeholder="List or type 'None'">
-
-        
+        <label>Are you currently taking any medications?</label>
+        <input type="text" name="medications">
 
         <label>Do you consume alcohol?</label>
         <select name="alcohol_consumption">
-          <option value="No">No</option>
+          <option value="">Select</option>
           <option value="Yes">Yes</option>
+          <option value="No">No</option>
         </select>
 
-        <label>Do you have any tattoos or piercings (last 6 months)?</label>
+        <label>Do you have any tattoos or piercings?</label>
         <select name="tattoos_piercings">
-          <option value="No">No</option>
+          <option value="">Select</option>
           <option value="Yes">Yes</option>
+          <option value="No">No</option>
         </select>
 
-        <label>Are you pregnant? (Only if applicable)</label>
+        <label>Pregnancy Status (if applicable)</label>
         <select name="pregnancy_status">
-          <option value="No">No</option>
-          <option value="Yes">Yes</option>
-          <option value="N/A">Not Applicable</option>
+          <option value="">Select</option>
+          <option value="Pregnant">Pregnant</option>
+          <option value="Not Pregnant">Not Pregnant</option>
+          <option value="Not Applicable">Not Applicable</option>
         </select>
+
+
+
+
+
       </div>
 
-      <br>
       <button type="submit">Submit 🩸</button>
     </form>
   </div>
+  <script>
+    window.onload = function() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
+          document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+        }, function(error) {
+          alert("Location access denied or unavailable. Please enable location services.");
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    };
+  </script>
+
 </body>
+
 </html>
