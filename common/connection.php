@@ -1,6 +1,6 @@
 
 <?php
-$servername = "localhost"; // Your server name or IP address
+$servername = "127.0.0.1:3307"; // Your server name or IP address
 $username = "root"; // Your database username
 $password = ""; // Your database password
 $dbname = "dropforlife"; // Your database name
