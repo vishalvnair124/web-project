@@ -1,0 +1,132 @@
+/* Basic layout for the page */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9fafa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Title style */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Table container */
+.table-container {
+    max-width: 1000px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+}
+
+/* Table styles */
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.users-table th {
+    background-color: #f5f5f5;
+    padding: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
+.users-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Alternate row coloring for readability */
+.users-table tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
+
+/* Badge styles for status */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.badge-active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.badge-temp {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge-blocked {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Action button container */
+.action-buttons form {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Button style */
+.action-buttons button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual button colors */
+.btn-block {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-temp {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.btn-activate {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Hover effects */
+.action-buttons button:hover {
+    opacity: 0.85;
+    transform: scale(1.02);
+}
+
+/* Responsive table for small screens */
+@media (max-width: 768px) {
+    .users-table {
+        font-size: 0.85rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+}
