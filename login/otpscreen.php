@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Enter OTP - Drop4Life</title>
@@ -75,11 +76,29 @@
 
 <?php
 $email = isset($_GET['email']) ? htmlspecialchars($_GET['email']) : '';
+$error = isset($_GET['error']) ? $_GET['error'] : '';
+
+$error = isset($_GET['error']) ? $_GET['error'] : '';
+$errorMessage = '';
+
+switch ($error) {
+    case 'invalid_otp':
+        $errorMessage = 'Invalid OTP. Please try again.';
+        break;
+    case 'no_user':
+        $errorMessage = 'No user found with this email.';
+        break;
+        // Add more error cases here if needed
+}
 ?>
 
 <body>
     <div class="otp-container">
         <h2>Enter OTP <span class="emoji">🩸</span></h2>
+
+        <?php if ($error): ?>
+            <p style="color: red; margin-bottom: 15px;">❌ <?php echo $errorMessage; ?></p>
+        <?php endif; ?>
 
         <form action="verifyotp.php" method="post">
             <input type="text" name="otp" placeholder="Enter OTP" maxlength="6" required>
@@ -88,4 +107,5 @@ $email = isset($_GET['email']) ? htmlspecialchars($_GET['email']) : '';
         </form>
     </div>
 </body>
+
 </html>

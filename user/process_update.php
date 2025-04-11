@@ -188,4 +188,6 @@ if (!empty($_POST['weight'])) {
     }
 }
 
+
 echo "<script>alert('Profile updated successfully!'); window.location.href='../user/index.php';</script>";
+
