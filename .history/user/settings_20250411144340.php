@@ -107,16 +107,8 @@ $donor = ($donor_result->num_rows > 0) ? $donor_result->fetch_assoc() : null;
                 }
                 ?>
             </select>
-            <label>Date of Birth</label>
-            <input type="date" name="user_dob" value="<?= $donor['user_dob'] ?? '' ?>" required>
-            <label>Availability Status</label>
-            <select name="availability_status" required>
-                <option value="">Select</option>
-                <option value="1" <?= ($donor['availability_status'] ?? '') == '1' ? 'selected' : '' ?>>Available</option>
-                <option value="0" <?= ($donor['availability_status'] ?? '') == '0' ? 'selected' : '' ?>>Not Available</option>
-            </select>
 
-            <br>
+            <hr>
             <h3>Health Details</h3>
 
             <label>Weight (kg)</label>
@@ -149,12 +141,11 @@ $donor = ($donor_result->num_rows > 0) ? $donor_result->fetch_assoc() : null;
             <label>Current Location</label>
             <div style="display: flex; gap: 10px;">
                 <input type="text" name="latitude" id="latitude" readonly placeholder="Latitude"
-                    value="<?= $user['latitude'] ?? '' ?>">
+                    value="<?= $donor['latitude'] ?? '' ?>">
                 <input type="text" name="longitude" id="longitude" readonly placeholder="Longitude"
-                    value="<?= $user['longitude'] ?? '' ?>">
+                    value="<?= $donor['longitude'] ?? '' ?>"><br>
                 <button type="button" style="margin-top:0px;" onclick="updateLocation()">Update</button>
             </div>
-
 
 
 
@@ -179,6 +170,10 @@ $donor = ($donor_result->num_rows > 0) ? $donor_result->fetch_assoc() : null;
                 <option value="Not Pregnant" <?= ($donor['pregnancy_status'] ?? '') == 'Not Pregnant' ? 'selected' : '' ?>>Not Pregnant</option>
                 <option value="Not Applicable" <?= ($donor['pregnancy_status'] ?? '') == 'Not Applicable' ? 'selected' : '' ?>>Not Applicable</option>
             </select>
+
+            <label>Last Donation Date</label>
+            <input type="date" name="last_donation_date" value="<?= $donor['last_donation_date'] ?? '' ?>">
+
             <button type="submit">Update Profile</button>
         </form>
     </div>
