@@ -161,3 +161,42 @@ if (!isset($_SESSION['user_id'])) {
         }
     }
 </script>
+<script>
+    document.querySelector("form").addEventListener("submit", function(e) {
+        const bloodGroup = document.querySelector('[name="blood_group"]').value;
+        const units = parseInt(document.querySelector('[name="request_units"]').value);
+        const whenNeeded = new Date(document.querySelector('[name="when_need_blood"]').value);
+        const hospital = document.querySelector('[name="hospital_name"]').value.trim();
+        const doctor = document.querySelector('[name="doctor_name"]').value.trim();
+        const latitude = document.querySelector('[name="latitude"]').value.trim();
+        const longitude = document.querySelector('[name="longitude"]').value.trim();
+        const place = document.querySelector('[name="place"]').value.trim();
+
+        let errors = [];
+
+        if (!bloodGroup) errors.push("Blood group is required.");
+
+        if (isNaN(units) || units < 1 || units > 10) {
+            errors.push("Units must be a number between 1 and 10.");
+        }
+
+        const now = new Date();
+        if (!whenNeeded || whenNeeded <= now) {
+            errors.push("Please select a valid future date and time for 'When Needed'.");
+        }
+
+        if (!hospital) errors.push("Hospital name is required.");
+        if (!doctor.match(/^[a-zA-Z\s]+$/)) {
+            errors.push("Doctor name should contain only letters and spaces.");
+        }
+
+        if (!latitude || !longitude || !place) {
+            errors.push("Location must be selected using the map or 'Get Current Location'.");
+        }
+
+        if (errors.length > 0) {
+            e.preventDefault();
+            alert(errors.join("\n"));
+        }
+    });
+</script>
