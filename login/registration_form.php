@@ -1,10 +1,10 @@
 <!-- registration_form.php -->
 <?php
 session_start();
-// if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
-//   header("Location: otpscreen.php?error=unauthorized");
-//   exit();
-// }
+if (!isset($_SESSION['otp_verified']) || $_SESSION['otp_verified'] !== true) {
+  header("Location: otpscreen.php?error=unauthorized");
+  exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +60,7 @@ session_start();
     input[type="tel"],
     input[type="date"],
     input[type="number"],
+    input[type="password"],
     select {
       width: 100%;
       padding: 10px;
@@ -67,6 +68,15 @@ session_start();
       border: 1px solid #ccc;
       border-radius: 8px;
       box-sizing: border-box;
+    }
+
+    .buttonView {
+      border-radius: 5px;
+      height: fit-content;
+      padding: 7px 30px;
+      border: none;
+      background-color: #ccc;
+      cursor: pointer;
     }
 
     input[type="radio"] {
@@ -100,18 +110,23 @@ session_start();
   </style>
   <div class="container">
     <h2>Registration Form 🩸</h2>
-    <form action="submit_registration.php" method="POST">
+    <form action="submit_registration.php" method="POST" onsubmit="return checkSubmit()">
       <label>Full Name</label>
       <input type="text" name="fullname" required>
 
+      <label>New Password</label>
+      <div style='display:flex;align-items:center;gap:5px;'><input type="password" name="pass" id='passMain' required><button onclick='showPass("passMain")' type='button' class='buttonView'>View</button></div>
+      <label>Confirm New Password</label>
+      <div style='display:flex;align-items:center;gap:5px;'><input type="password" id='passCo' required><button onclick='showPass("passCo")' type='button' class='buttonView'>View</button></div>
+
       <label>Email Address</label>
-      <input type="email" name="email" required value="<?php echo htmlspecialchars($_SESSION['user_email']); ?>" readonly>
+      <input type="email" name="email" id='EnEmail' required value="<?php echo htmlspecialchars($_SESSION['user_email']); ?>" readonly>
 
       <label>Phone Number</label>
-      <input type="tel" name="phone" required>
+      <input type="tel" name="phone" id='phoneNumber' required>
 
       <label>Birth Date</label>
-      <input type="date" name="birthdate" required>
+      <input type="date" name="birthdate" id='dob' onchange='calculateAge()' required>
 
       <label>Gender</label><br>
       <input type="radio" name="gender" value="Male" required> Male
@@ -219,6 +234,66 @@ session_start();
         alert("Geolocation is not supported by this browser.");
       }
     };
+
+    function showPass(objName) {
+      object = document.getElementById(objName);
+      if (object.type == "text") {
+        object.type = "password";
+      } else {
+        object.type = "text";
+      }
+    }
+
+    function checkSubmit() {
+      if (!calculateAge()) {
+        return false
+      }
+      if (document.getElementById("phoneNumber").value.length != 10) {
+        alert("Enter a valid phone number")
+        return false
+      }
+      // if(!isValidEmail(document.getElementById("EnEmail").value)){
+      //   alert("Enter a valid email")
+      //   return false
+      // }
+      if (document.getElementById("passMain").value.length < 6) {
+        alert("Password must be 6 character long")
+        return false;
+      }
+      if ((document.getElementById("passCo").value != document.getElementById("passMain").value)) {
+        alert("Password Not Matching");
+        return false;
+      }
+      return true
+    }
+
+
+    function isValidEmail(email) {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    }
+
+
+    function calculateAge() {
+      const dobInput = document.getElementById('dob').value;
+
+      const dob = new Date(dobInput);
+      const today = new Date();
+
+      let age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+      const dayDiff = today.getDate() - dob.getDate();
+
+      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+      }
+      if (age < 18) {
+        alert("Age must be above 18");
+        return false;
+      }
+      return true;
+
+    }
   </script>
 
 </body>
