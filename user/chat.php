@@ -1,59 +1,29 @@
 <?php
-// Include database connection
 include '../common/connection.php';
-
-// Start the session to access session variables
 session_start();
-$logged_in_user_id = $_SESSION['user_id']; // Get the logged-in user's ID from the session
 
-// Get the other user's ID from the URL
+$logged_in_user_id = $_SESSION['user_id'];
+
 if (!isset($_GET['user_id'])) {
-    die("User not specified."); // Stop execution if no user ID is provided
+    die("User not specified.");
 }
-$chat_user_id = intval($_GET['user_id']); // Sanitize the user ID from the URL
+$chat_user_id = intval($_GET['user_id']);
 
-// Fetch chat user details
-$user_query = "SELECT name FROM users WHERE user_id = $chat_user_id"; // Query to get the name of the chat user
+$user_query = "SELECT name FROM users WHERE user_id = $chat_user_id";
 $user_result = $conn->query($user_query);
 if ($user_result->num_rows == 0) {
-    die("User not found."); // Stop execution if the user does not exist
+    die("User not found.");
 }
-$user = $user_result->fetch_assoc(); // Fetch the user details
-
-// Fetch messages between the logged-in user and the chat user
-$messages_query = "SELECT * FROM messages 
-                   WHERE (sender_id = $logged_in_user_id AND receiver_id = $chat_user_id) 
-                      OR (sender_id = $chat_user_id AND receiver_id = $logged_in_user_id)
-                   ORDER BY sent_at ASC"; // Order messages by the time they were sent
-$messages_result = $conn->query($messages_query); // Execute the query
-
-// Handle new message submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['message'])) {
-    $message = $conn->real_escape_string($_POST['message']); // Sanitize the message input
-    $insert_query = "INSERT INTO messages (sender_id, receiver_id, message, sent_at) 
-                     VALUES ($logged_in_user_id, $chat_user_id, '$message', NOW())"; // Insert the new message into the database
-    $conn->query($insert_query);
-
-    // Redirect to refresh the chat and avoid resubmitting the form
-    header("Location: chat.php?user_id=$chat_user_id");
-    exit();
-}
-
-// Close the database connection
-$conn->close();
+$user = $user_result->fetch_assoc();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with <?= htmlspecialchars($user['name']) ?></title> <!-- Display the chat user's name in the title -->
-    <link rel="stylesheet" href="styles/styles.css"> <!-- External CSS -->
-
+    <title>Chat with <?= htmlspecialchars($user['name']) ?></title>
+    <link rel="stylesheet" href="styles/styles.css">
     <style>
-        /* Basic styling for the chat interface */
         body {
             font-family: 'Arial', sans-serif;
             background: #ffc8c8;
@@ -70,22 +40,41 @@ $conn->close();
             border: 2px solid #d32f2f;
             margin-top: 50px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
         }
 
         .chat-header {
-            background: var(--primary-color);
+            background: #d32f2f;
             color: white;
             padding: 15px;
             text-align: center;
             font-size: 20px;
             font-weight: bold;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            color: #d32f2f;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
         }
 
         .chat-messages {
-            height: 400px;
+            flex-grow: 1;
             overflow-y: auto;
             padding: 15px;
             background: #fff5f5;
+            display: flex;
+            flex-direction: column;
         }
 
         .message {
@@ -126,7 +115,7 @@ $conn->close();
         }
 
         .send-button {
-            background: var(--primary-color);
+            background: #d32f2f;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -144,31 +133,57 @@ $conn->close();
 <body>
 
     <div class="chat-container">
-        <!-- Chat header displaying the chat user's name -->
-        <div class="chat-header"><?= htmlspecialchars($user['name']) ?></div>
-
-        <!-- Chat messages section -->
-        <div class="chat-messages" id="chat-messages">
-            <?php while ($msg = $messages_result->fetch_assoc()): ?>
-                <div class="message <?= $msg['sender_id'] == $logged_in_user_id ? 'sent' : 'received' ?>">
-                    <?= htmlspecialchars($msg['message']) ?> <!-- Display the message content -->
-                </div>
-            <?php endwhile; ?>
+        <div class="chat-header">
+            <button class="back-button" onclick="window.history.back()">← Back</button>
+            <?= htmlspecialchars($user['name']) ?>
         </div>
 
-        <!-- Chat footer with a form to send new messages -->
+        <div class="chat-messages" id="chat-messages"></div>
+
         <div class="chat-footer">
-            <form action="chat.php?user_id=<?= $chat_user_id ?>" method="post" style="display: flex; width: 100%;">
-                <input type="text" name="message" class="message-input" placeholder="Type a message..." required>
+            <form id="chat-form" style="display: flex; width: 100%;">
+                <input type="text" id="message" class="message-input" placeholder="Type a message..." required>
                 <button type="submit" class="send-button">Send</button>
             </form>
         </div>
     </div>
 
     <script>
-        // Auto-scroll to the latest message
-        let chatBox = document.getElementById('chat-messages');
-        chatBox.scrollTop = chatBox.scrollHeight;
+        const chatBox = document.getElementById('chat-messages');
+
+        function fetchMessages() {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "get_messages.php?user_id=<?= $chat_user_id ?>", true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    chatBox.innerHTML = xhr.responseText;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            };
+            xhr.send();
+        }
+
+        document.getElementById("chat-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const messageInput = document.getElementById("message");
+            const message = messageInput.value.trim();
+            if (message === "") return;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "send_message.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    messageInput.value = "";
+                    fetchMessages();
+                }
+            };
+            xhr.send("message=" + encodeURIComponent(message) + "&receiver_id=<?= $chat_user_id ?>");
+        });
+
+        // Start polling every 2 seconds
+        setInterval(fetchMessages, 2000);
+        window.onload = fetchMessages;
     </script>
 
 </body>
