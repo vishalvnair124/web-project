@@ -1,19 +1,31 @@
 <?php
+// Include the database connection file
 include '../common/connection.php';
+
+// Start the session to access session variables
 session_start();
 
+// Get the logged-in user's ID from the session
 $logged_in_user_id = $_SESSION['user_id'];
 
+// Check if the user_id parameter is provided in the URL
 if (!isset($_GET['user_id'])) {
-    die("User not specified.");
+    die("User not specified."); // Terminate if no user_id is provided
 }
+
+// Sanitize and store the chat user's ID
 $chat_user_id = intval($_GET['user_id']);
 
+// Query to fetch the name of the user to chat with
 $user_query = "SELECT name FROM users WHERE user_id = $chat_user_id";
 $user_result = $conn->query($user_query);
+
+// Check if the user exists in the database
 if ($user_result->num_rows == 0) {
-    die("User not found.");
+    die("User not found."); // Terminate if the user does not exist
 }
+
+// Fetch the user's details
 $user = $user_result->fetch_assoc();
 ?>
 <!DOCTYPE html>
@@ -22,8 +34,10 @@ $user = $user_result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title>Chat with <?= htmlspecialchars($user['name']) ?></title>
+    <!-- Link to external stylesheet -->
     <link rel="stylesheet" href="styles/styles.css">
     <style>
+        /* Basic styling for the page */
         body {
             font-family: 'Arial', sans-serif;
             background: #ffc8c8;
@@ -31,6 +45,7 @@ $user = $user_result->fetch_assoc();
             padding: 0;
         }
 
+        /* Styling for the chat container */
         .chat-container {
             max-width: 500px;
             margin: auto;
@@ -45,6 +60,7 @@ $user = $user_result->fetch_assoc();
             height: 80vh;
         }
 
+        /* Header styling for the chat */
         .chat-header {
             background: #d32f2f;
             color: white;
@@ -55,6 +71,7 @@ $user = $user_result->fetch_assoc();
             position: relative;
         }
 
+        /* Back button styling */
         .back-button {
             position: absolute;
             left: 15px;
@@ -68,6 +85,7 @@ $user = $user_result->fetch_assoc();
             cursor: pointer;
         }
 
+        /* Styling for the chat messages area */
         .chat-messages {
             flex-grow: 1;
             overflow-y: auto;
@@ -77,6 +95,7 @@ $user = $user_result->fetch_assoc();
             flex-direction: column;
         }
 
+        /* Styling for individual messages */
         .message {
             padding: 10px 15px;
             margin-bottom: 10px;
@@ -85,6 +104,7 @@ $user = $user_result->fetch_assoc();
             word-wrap: break-word;
         }
 
+        /* Sent message styling */
         .sent {
             background: #d32f2f;
             color: white;
@@ -92,6 +112,7 @@ $user = $user_result->fetch_assoc();
             margin-left: auto;
         }
 
+        /* Received message styling */
         .received {
             background: white;
             border: 1px solid #d32f2f;
@@ -99,6 +120,7 @@ $user = $user_result->fetch_assoc();
             align-self: flex-start;
         }
 
+        /* Footer styling for the chat */
         .chat-footer {
             display: flex;
             padding: 10px;
@@ -106,6 +128,7 @@ $user = $user_result->fetch_assoc();
             border-top: 1px solid #ddd;
         }
 
+        /* Input field styling for messages */
         .message-input {
             flex-grow: 1;
             padding: 10px;
@@ -114,6 +137,7 @@ $user = $user_result->fetch_assoc();
             outline: none;
         }
 
+        /* Send button styling */
         .send-button {
             background: #d32f2f;
             color: white;
@@ -124,6 +148,7 @@ $user = $user_result->fetch_assoc();
             cursor: pointer;
         }
 
+        /* Hover effect for the send button */
         .send-button:hover {
             background: #c62828;
         }
@@ -132,14 +157,18 @@ $user = $user_result->fetch_assoc();
 
 <body>
 
+    <!-- Chat container -->
     <div class="chat-container">
+        <!-- Chat header with back button and user name -->
         <div class="chat-header">
             <button class="back-button" onclick="window.history.back()">← Back</button>
             <?= htmlspecialchars($user['name']) ?>
         </div>
 
+        <!-- Chat messages area -->
         <div class="chat-messages" id="chat-messages"></div>
 
+        <!-- Chat footer with input field and send button -->
         <div class="chat-footer">
             <form id="chat-form" style="display: flex; width: 100%;">
                 <input type="text" id="message" class="message-input" placeholder="Type a message..." required>
@@ -149,41 +178,45 @@ $user = $user_result->fetch_assoc();
     </div>
 
     <script>
+        // Reference to the chat messages container
         const chatBox = document.getElementById('chat-messages');
 
+        // Function to fetch messages from the server
         function fetchMessages() {
             const xhr = new XMLHttpRequest();
             xhr.open("GET", "get_messages.php?user_id=<?= $chat_user_id ?>", true);
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    chatBox.innerHTML = xhr.responseText;
-                    chatBox.scrollTop = chatBox.scrollHeight;
+                    chatBox.innerHTML = xhr.responseText; // Update chat messages
+                    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
                 }
             };
             xhr.send();
         }
 
+        // Event listener for the chat form submission
         document.getElementById("chat-form").addEventListener("submit", function(e) {
-            e.preventDefault();
+            e.preventDefault(); // Prevent default form submission
             const messageInput = document.getElementById("message");
             const message = messageInput.value.trim();
-            if (message === "") return;
+            if (message === "") return; // Do nothing if the message is empty
 
+            // Send the message to the server
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "send_message.php", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.onload = function() {
                 if (xhr.status === 200) {
-                    messageInput.value = "";
-                    fetchMessages();
+                    messageInput.value = ""; // Clear the input field
+                    fetchMessages(); // Refresh the chat messages
                 }
             };
             xhr.send("message=" + encodeURIComponent(message) + "&receiver_id=<?= $chat_user_id ?>");
         });
 
-        // Start polling every 2 seconds
+        // Start polling for new messages every 2 seconds
         setInterval(fetchMessages, 2000);
-        window.onload = fetchMessages;
+        window.onload = fetchMessages; // Fetch messages when the page loads
     </script>
 
 </body>
