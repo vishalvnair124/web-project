@@ -31,10 +31,10 @@ $conn->close();
         <input type="hidden" name="request_id" value="<?= $request_id ?>">
 
         <label>Blood Group</label>
-        <input type="text" name="blood_group" value="<?= $row['blood_group'] ?>" required>
+        <input type="text" name="blood_group" value="<?= $row['blood_group'] ?>" required readonly>
 
         <label>Units Required</label>
-        <input type="number" name="request_units" value="<?= $row['request_units'] ?>" required>
+        <input type="number" name="request_units" value="<?= $row['request_units'] ?>" required readonly>
 
         <label>When Needed</label>
         <input type="datetime-local" name="when_need_blood" value="<?= date('Y-m-d\TH:i', strtotime($row['when_need_blood'])) ?>" required>
