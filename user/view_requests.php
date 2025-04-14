@@ -135,19 +135,62 @@ while ($donor = $donors->fetch_assoc()) {
                     <td><?php echo $donor['phone']; ?></td> <!-- Display donor phone -->
                     <td><?php echo ($donor['donor_notifications_status'] == 1) ? 'Accepted' : 'Donated'; ?></td> <!-- Display donor status -->
                     <td><a href="chat.php?user_id=<?php echo $donor['donor_id'];  ?>" class="btn-chat">Chat</a> <!-- Link to chat with donor -->
-                        <?php if ($donor['donor_notifications_status'] == 1): ?>
+                        <?php
+                        // Assuming $request_id is already available
+                        $donatedQuery = "SELECT COUNT(*) AS donated_count FROM donor_notifications WHERE request_id = $request_id AND donor_notifications_status = 5";
+                        $donatedResult = $conn->query($donatedQuery);
+                        $donatedRow = $donatedResult->fetch_assoc();
+                        $donated_count = $donatedRow['donated_count'];
+
+                        $required_units = $request['request_units']; // assuming this is part of the $request
+                        ?>
+                        <?php if ($donor['donor_notifications_status'] == 1 && $donated_count < $required_units): ?>
                             <a href="mark_donated.php?donor_id=<?php echo $donor['donor_id']; ?>&request_id=<?php echo $request['request_id']; ?>"
                                 class="btn-donated"
                                 onclick="return confirm('Mark this donor as Donated?');">Donated</a>
                         <?php endif; ?>
+
                     </td>
                 </tr>
+
+                <?php if (isset($_SESSION['donation_error'])): ?>
+                    <script>
+                        alert('<?php echo $_SESSION['donation_error']; ?>');
+                    </script>
+                    <?php unset($_SESSION['donation_error']); ?>
+                <?php endif; ?>
+
             <?php endforeach; ?>
         </table>
     </div>
 
 </body>
 <style>
+    .btn-donated {
+        display: inline-block;
+        background-color: #28a745;
+        /* green */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-donated:hover {
+        background-color: #218838;
+        /* darker green */
+        transform: scale(1.05);
+    }
+
+    .btn-donated:active {
+        transform: scale(0.98);
+    }
+
     .btn-chat {
         /* Styling for the chat button */
         background-color: #1976D2;
