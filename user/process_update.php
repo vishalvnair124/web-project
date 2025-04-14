@@ -36,7 +36,8 @@ $gender = $_POST['gender'] ?? '';
 $latitude = isset($_POST['latitude']) ? floatval($_POST['latitude']) : null;
 $longitude = isset($_POST['longitude']) ? floatval($_POST['longitude']) : null;
 $blood_group = $_POST['blood_group'] ?? '';
-$availability_status = $_POST['interested'] ?? 0;
+$availability_status = $_POST['availability_status'] ?? 0;
+$password = ($_POST['pass'] == "") ? $_POST['passTemp'] : password_hash($_POST['pass'], PASSWORD_DEFAULT);
 
 // Distance
 $user_distance = null;
@@ -74,6 +75,7 @@ addFieldIfChanged("latitude", $latitude, $current['latitude'], $fields, $params,
 addFieldIfChanged("longitude", $longitude, $current['longitude'], $fields, $params, $types);
 addFieldIfChanged("user_distance", $user_distance, $current['user_distance'], $fields, $params, $types);
 addFieldIfChanged("availability_status", $availability_status, $current['availability_status'], $fields, $params, $types);
+addFieldIfChanged("password", $password, $current['password'], $fields, $params, $types);
 
 // Update users table
 if (count($fields) > 0) {
@@ -130,14 +132,40 @@ if (!empty($_POST['weight'])) {
 
         if ($check->num_rows > 0) {
             // UPDATE
+            // $stmt = $conn->prepare("UPDATE donor_info SET 
+            //     user_dob=?, weight=?, height=?, pulse_rate=?, body_temperature=?,
+            //     blood_pressure=?, hemoglobin_level=?, cholesterol=?, last_donation_date=?,
+            //     chronic_diseases=?, medications=?, alcohol_consumption=?, tattoos_piercings=?, pregnancy_status=?
+            //     WHERE user_id=?");
+
+            // $stmt->bind_param(
+            //     "sddidddsisssssi",
+            //     $birthdate,
+            //     $weight,
+            //     $height,
+            //     $pulse_rate,
+            //     $body_temp,
+            //     $bp,
+            //     $hb,
+            //     $chol,
+            //     $last_donation,
+            //     $diseases,
+            //     $medications,
+            //     $alcohol,
+            //     $tattoos,
+            //     $pregnancy_status,
+            //     $user_id
+            // );
+
+
             $stmt = $conn->prepare("UPDATE donor_info SET 
                 user_dob=?, weight=?, height=?, pulse_rate=?, body_temperature=?,
-                blood_pressure=?, hemoglobin_level=?, cholesterol=?, last_donation_date=?,
+                blood_pressure=?, hemoglobin_level=?, cholesterol=?, 
                 chronic_diseases=?, medications=?, alcohol_consumption=?, tattoos_piercings=?, pregnancy_status=?
                 WHERE user_id=?");
 
             $stmt->bind_param(
-                "sddidddsisssssi",
+                "sddidsdsissssi",
                 $birthdate,
                 $weight,
                 $height,
@@ -146,7 +174,6 @@ if (!empty($_POST['weight'])) {
                 $bp,
                 $hb,
                 $chol,
-                $last_donation,
                 $diseases,
                 $medications,
                 $alcohol,
@@ -158,12 +185,12 @@ if (!empty($_POST['weight'])) {
             // INSERT
             $stmt = $conn->prepare("INSERT INTO donor_info (
                 user_id, user_dob, weight, height, pulse_rate, body_temperature,
-                blood_pressure, hemoglobin_level, cholesterol, last_donation_date,
+                blood_pressure, hemoglobin_level, cholesterol,
                 chronic_diseases, medications, alcohol_consumption, tattoos_piercings, pregnancy_status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             $stmt->bind_param(
-                "isddidddsisssss",
+                "isddidsdsissss",
                 $user_id,
                 $birthdate,
                 $weight,
@@ -173,7 +200,6 @@ if (!empty($_POST['weight'])) {
                 $bp,
                 $hb,
                 $chol,
-                $last_donation,
                 $diseases,
                 $medications,
                 $alcohol,
@@ -189,5 +215,4 @@ if (!empty($_POST['weight'])) {
 }
 
 
-echo "<script>alert('Profile updated successfully!'); window.location.href='../user/index.php';</script>";
-
+echo "<script>alert('Profile updated successfully!'); window.location.href='../user/index.php?page=settings.php';</script>";
