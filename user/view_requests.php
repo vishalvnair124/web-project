@@ -6,7 +6,7 @@ $request_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($request_id <= 0) {
     // Redirect to the requests page if the request ID is invalid
-    echo "<script>alert('Invalid request!'); window.location.href='requests.php';</script>";
+    echo "<script>alert('Invalid request!'); window.location.href='?page=requests.php';</script>";
     exit();
 }
 
@@ -21,7 +21,7 @@ $request = $stmt->get_result()->fetch_assoc(); // Fetch the request details
 
 if (!$request) {
     // Redirect to the requests page if the request is not found
-    echo "<script>alert('Request not found!'); window.location.href='requests.php';</script>";
+    echo "<script>alert('Request not found!'); window.location.href='?page=requests.php';</script>";
     exit();
 }
 
@@ -134,7 +134,13 @@ while ($donor = $donors->fetch_assoc()) {
                     <td><?php echo $donor['email']; ?></td> <!-- Display donor email -->
                     <td><?php echo $donor['phone']; ?></td> <!-- Display donor phone -->
                     <td><?php echo ($donor['donor_notifications_status'] == 1) ? 'Accepted' : 'Donated'; ?></td> <!-- Display donor status -->
-                    <td><a href="chat.php?user_id=<?php echo $donor['donor_id'];  ?>" class="btn-chat">Chat</a></td> <!-- Link to chat with donor -->
+                    <td><a href="chat.php?user_id=<?php echo $donor['donor_id'];  ?>" class="btn-chat">Chat</a> <!-- Link to chat with donor -->
+                        <?php if ($donor['donor_notifications_status'] == 1): ?>
+                            <a href="mark_donated.php?donor_id=<?php echo $donor['donor_id']; ?>&request_id=<?php echo $request['request_id']; ?>"
+                                class="btn-donated"
+                                onclick="return confirm('Mark this donor as Donated?');">Donated</a>
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>
