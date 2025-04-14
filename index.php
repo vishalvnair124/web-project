@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <!-- <BODy></BODy> -->
     <header>
         <div class="logo-container">
 
@@ -36,7 +37,7 @@
         <img src="media/hero-image.png" alt="Blood Donation" class="hero-image">
     </section>
 
-
+    <!-- ABOURT -->
     <section id="about">
         <h2>About Us</h2>
         <p>Drop4Life is a non-profit organization dedicated to spreading awareness about the critical need for blood donation. Our mission is to ensure that everyone understands the importance of donating blood and how it can save lives.</p>
@@ -49,8 +50,8 @@
 
 
 
-
-
+    <!-- 
+IMPORTANCE -->
 
 
     <section id="importance">
@@ -73,7 +74,7 @@
             </div>
         </div>
     </section>
-
+    <!-- DONATE -->
     <section id="donate">
         <h2>How to Donate</h2>
         <p>Donating blood is a simple process that can make a huge difference. Find out the steps to donate and locate a blood donation center near you.</p>
@@ -114,7 +115,7 @@
         </div>
     </section>
 
-
+    <!-- CONTACT -->
 
     <section id="contact">
         <h2>Contact Us</h2>
@@ -132,7 +133,7 @@
             <button type="submit" class="btn">Send Message</button>
         </form>
     </section>
-
+    <!-- ALERT -->
 
     <div id="alert-container">
         <?php if (isset($_GET['type']) && isset($_GET['message'])) : ?>
@@ -171,8 +172,9 @@
         <?php endif; ?>
 
     </div>
+    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2024 Drop4Life. All rights reserved.</p>
+        <p>&copy; 2025 Drop4Life. All rights reserved.</p>
         <ul class="social-media">
             <li><a href="#"><img src="media/facebookicon_icon.png" alt="Facebook"></a></li>
             <li><a href="#"><img src="media/twitter_icon.png" alt="Twitter"></a></li>
