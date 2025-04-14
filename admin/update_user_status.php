@@ -1,33 +1,34 @@
 <?php
-include '../common/connection.php'; // ✅ use the correct connection file
+include '../common/connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
-    $user_id = intval($_POST['user_id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $userId = $_POST['user_id'];
 
-    // Decide status based on which button was clicked
     if (isset($_POST['block'])) {
         $status = 0;
+        $message = "User has been permanently blocked.";
     } elseif (isset($_POST['temp'])) {
         $status = 2;
+        $message = "User has been temporarily blocked.";
     } elseif (isset($_POST['activate'])) {
         $status = 1;
+        $message = "User has been activated.";
     } else {
-        header("Location: users.php");
-        exit();
+        echo "Invalid action.";
+        exit;
     }
 
-    // Update status in DB
-    $stmt = $conn->prepare("UPDATE users SET user_status = ? WHERE user_id = ?");
-    if ($stmt) {
-        $stmt->bind_param("ii", $status, $user_id);
-        $stmt->execute();
-        $stmt->close();
+    $sql = "UPDATE users SET user_status = ? WHERE user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $status, $userId);
+
+    if ($stmt->execute()) {
+        echo $message;
+    } else {
+        echo "Failed to update user status.";
     }
 
-    header("Location: users.php");
-    exit();
-} else {
-    header("Location: users.php");
-    exit();
+    $stmt->close();
+    $conn->close();
 }
 ?>

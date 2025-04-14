@@ -130,3 +130,16 @@ h2 {
         width: 100%;
     }
 }
+.popup-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #d4edda;
+    color: #155724;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    display: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 999;
+  }
