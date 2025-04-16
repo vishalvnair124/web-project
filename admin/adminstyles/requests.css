@@ -1,8 +1,8 @@
 body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f9fafa;
+    /* background-color: #f9fafa; */
     margin: 0;
-    padding: 20px;
+    padding: 0px;
 }
 
 h2 {
@@ -10,15 +10,6 @@ h2 {
     margin-bottom: 30px;
     color: #333;
     font-weight: 600;
-}
-
-.table-container {
-    max-width: 1100px;
-    margin: auto;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    padding: 20px;
 }
 
 .requests-table {
@@ -52,6 +43,7 @@ h2 {
     font-weight: 600;
     font-size: 0.85rem;
     display: inline-block;
+    animation: bubble .3s ease-in-out forwards;
 }
 
 .status.pending {
@@ -64,7 +56,8 @@ h2 {
     color: #155724;
 }
 
-.status.cancelled {
+.status.cancelled,
+.status.Blocked {
     background-color: #f8d7da;
     color: #721c24;
 }
@@ -72,6 +65,25 @@ h2 {
 .status.unknown {
     background-color: #e2e3e5;
     color: #383d41;
+}
+
+.btn-block {
+    color: #fff;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    animation: bubble .3s ease-in-out forwards;
+}
+
+.btn-block.UnBlock {
+    background-color: rgb(53, 220, 95);
+}
+
+.btn-block.Block {
+    background-color: rgb(220, 53, 53);
 }
 
 /* Urgency styles */
@@ -101,4 +113,18 @@ h2 {
 .urgency.unknown {
     background-color: #d6d8db;
     color: #343a40;
+}
+
+@keyframes bubble {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
