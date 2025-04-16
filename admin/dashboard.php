@@ -1,10 +1,12 @@
 <?php
 // Include necessary scripts or start session if needed
+include '../common/connection.php';
 session_start();
+
 // Fetch data from the database or any source
-$requestsCount = 500; // Example data
-$testimonialsCount = 325; // Example data
-$usersCount = 1500; // Example data
+$requestsCount = $conn->query("SELECT * FROM `blood_requests`")->num_rows;
+$testimonialsCount = $conn->query("SELECT * FROM `donor_notifications` WHERE donor_notifications_status=5")->num_rows;
+$usersCount = $conn->query("SELECT * FROM `users`")->num_rows; // Example data
 $completionRate = 85; // Percent value
 
 // Content of the dashboard
@@ -14,7 +16,7 @@ $completionRate = 85; // Percent value
     <div class="box box1" data-count="<?= $requestsCount ?>">
         <div class="text">
             <h2 class="topic-heading" id="requests-count">0</h2>
-            <h2 class="topic">Requests</h2>
+            <h2 class="topic">Total Requests</h2>
         </div>
         <img src="../media/request.png" alt="Requests">
     </div>
@@ -22,7 +24,7 @@ $completionRate = 85; // Percent value
     <div class="box box2" data-count="<?= $testimonialsCount ?>">
         <div class="text">
             <h2 class="topic-heading" id="testimonials-count">0</h2>
-            <h2 class="topic">Testimonials</h2>
+            <h2 class="topic">Total Donations</h2>
         </div>
         <img src="../media/testimonial.png" alt="Testimonials">
     </div>
@@ -30,67 +32,65 @@ $completionRate = 85; // Percent value
     <div class="box box3" data-count="<?= $usersCount ?>">
         <div class="text">
             <h2 class="topic-heading" id="users-count">0</h2>
-            <h2 class="topic">Users</h2>
+            <h2 class="topic">Total Users</h2>
         </div>
         <img src="../media/users.png" alt="Users">
     </div>
 
-    <div class="box box4" data-count="<?= $completionRate ?>%">
+    <!-- <div class="box box4" data-count="<?= $completionRate ?>%">
         <div class="text">
             <h2 class="topic-heading" id="completion-rate">0%</h2>
             <h2 class="topic">Completion</h2>
         </div>
         <img src="../media/complete.png" alt="Completion">
-    </div>
+    </div> -->
 </div>
 
 <div class="report-container">
     <div class="report-header">
         <h1 class="recent-Articles">Recent Requests</h1>
-        <button class="view">View All</button>
+        <a href="?page=RecentRequests.php"><button class="view">View All</button></a>
     </div>
 
+    <?php
+    $requestsSQL = "SELECT blood_requests.*,users.name FROM `blood_requests` INNER JOIN users ON users.user_id=blood_requests.recipient_id WHERE blood_requests.request_status=1 OR blood_requests.request_status=3 ORDER BY request_id DESC LIMIT 5";
+    $requests = $conn->query($requestsSQL);
+    ?>
+
     <div class="report-body">
-        <table>
+        <table style='color:black'>
             <thead>
                 <tr>
-                    <th>Request ID</th>
+                    <th>SI No</th>
                     <th>Name</th>
                     <th>Blood Type</th>
+                    <th>Location</th>
+                    <th>Hospital</th>
                     <th>Status</th>
+                    <th>Share</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>R001</td>
-                    <td>John Doe</td>
-                    <td>O+</td>
-                    <td class="label-tag">Pending</td>
-                </tr>
-                <tr>
-                    <td>R002</td>
-                    <td>Jane Smith</td>
-                    <td>A-</td>
-                    <td class="label-tag">Completed</td>
-                </tr>
-                <tr>
-                    <td>R003</td>
-                    <td>Alice Johnson</td>
-                    <td>B+</td>
-                    <td class="label-tag">Pending</td>
-                </tr>
-                <tr>
-                    <td>R004</td>
-                    <td>Mike Lee</td>
-                    <td>AB-</td>
-                    <td class="label-tag">Completed</td>
-                </tr>
-                <tr>
-                    <td>R005</td>
-                    <td>Sophia Brown</td>
-                    <td>O-</td>
-                    <td class="label-tag">Pending</td>
-                </tr>
+                <?php
+                $i = 1;
+                if ($requests->num_rows > 0) {
+
+                    while ($request = $requests->fetch_assoc()) {
+                ?>
+                        <tr>
+                            <td><?= $i++ ?></td>
+                            <td><?= $request['name'] ?></td>
+                            <td><?= $request['blood_group'] ?></td>
+                            <td><?= $request['place'] ?></td>
+                            <td><?= $request['hospital_name'] ?></td>
+                            <td class="label-tag">Pending</td>
+                            <td class="label-tag" style='background-color:#075E54'><a href="whatsapp://send?text=🩸%20*Blood%20Needed*%20🩸%0ABlood%20Group:%20<?= urlencode($request['blood_group']) ?>%0AHospital:%20<?= urlencode($request['hospital_name']) ?>%0APlace:%20<?= urlencode($request['place']) ?>" style='text-decoration:none; color:white;'>Share</whatsapp:>
+                            </td>
+                        </tr>
+                <?php
+                    }
+                }
+                ?>
             </tbody>
         </table>
     </div>
