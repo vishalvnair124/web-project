@@ -25,6 +25,7 @@ $result = $stmt->get_result();
 <div class="container">
     <div class="header">
         <h2>My Donations</h2>
+        <a href="?page=create_donations.php" class="create-btn">+ Create Donation</a> <!-- Button to create a new request -->
     </div>
 
     <!-- Table to display donation records -->
