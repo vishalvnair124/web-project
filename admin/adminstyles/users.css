@@ -1,7 +1,7 @@
 /* Basic layout for the page */
 body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f9fafa;
+    /* background-color: #f9fafa; */
     margin: 0;
     padding: 0;
 }
@@ -14,9 +14,10 @@ h2 {
     font-weight: 600;
 }
 
+
 /* Table container */
 .table-container {
-    max-width: 1000px;
+    /* max-width: 1000px; */
     margin: auto;
     background-color: #fff;
     border-radius: 12px;
@@ -56,6 +57,21 @@ h2 {
     font-size: 0.9rem;
     font-weight: bold;
     display: inline-block;
+    animation: bubble .3s ease-in-out forwards;
+}
+
+@keyframes bubble {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .badge-active {
@@ -68,6 +84,11 @@ h2 {
     color: #856404;
 }
 
+.badge-updated {
+    background-color: rgba(11, 124, 181, 0.849);
+    color: white;
+}
+
 .badge-blocked {
     background-color: #f8d7da;
     color: #721c24;
@@ -75,6 +96,13 @@ h2 {
 
 /* Action button container */
 .action-buttons form {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.actionButtonsCollection {
     display: flex;
     justify-content: center;
     gap: 8px;
@@ -91,6 +119,7 @@ h2 {
     cursor: pointer;
     transition: 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: bubble .3s ease-in-out forwards;
 }
 
 /* Individual button colors */
@@ -130,16 +159,3 @@ h2 {
         width: 100%;
     }
 }
-.popup-message {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #d4edda;
-    color: #155724;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-size: 14px;
-    display: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    z-index: 999;
-  }
