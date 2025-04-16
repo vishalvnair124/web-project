@@ -28,16 +28,23 @@ if (isset($_GET['id'])) {
             $message = "Dear " . $enquiry['enquirer_name'] . ",\n\n" . $custom_message . "\n\nBest regards,\nYour Company";
             $headers = "From: yourcompany@example.com";
 
-            if (mail($to, $subject, $message, $headers)) {
-                $email_status = 'Email sent successfully.';
-            } else {
-                $email_status = 'Failed to send email.';
-            }
+            $_SESSION['email'] = $to;
+            $_SESSION['fullname'] = $name;
+            $_SESSION['subject'] = "Your Enquiry Has Been Processed";
+            $_SESSION['message'] = "Dear " . $enquiry['enquirer_name'] . ",\n\n" . $custom_message . "\n\nBest regards,\nYour Company";
+            $_SESSION['goback'] = "Location:../admin/index.php?page=enquiry.php";
+            header("Location:../phpmailer/");
+
+            // if (mail($to, $subject, $message, $headers)) {
+            //     $email_status = 'Email sent successfully.';
+            // } else {
+            //     $email_status = 'Failed to send email.';
+            // }
 
             $alert_type = 'success';
             $alert_message = "Enquiry processed successfully. $email_status";
 
-            header("Location: enquiry.php?type=$alert_type&message=" . urlencode($alert_message));
+            // header("Location: enquiry.php?type=$alert_type&message=" . urlencode($alert_message));
             exit();
         }
     } else {
