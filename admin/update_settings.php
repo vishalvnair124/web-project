@@ -35,4 +35,3 @@ if ($stmt->execute()) {
 } else {
     echo "Failed to update settings. Please try again.";
 }
-?>
